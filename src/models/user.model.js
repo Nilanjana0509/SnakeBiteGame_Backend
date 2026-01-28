@@ -3,31 +3,41 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userSchema = new Schema(
   {
-    username: {
+    user_name: {
       type: String,
       require: true,
       lowercase: true,
       trim: true,
     },
-    email: {
+    user_email: {
       type: String,
       require: true,
       lowercase: true,
       trim: true,
       unique: true,
     },
-    ph_no: {
+    user_number: {
       type: String,
       require: true,
       trim: true,
     },
-    address: {
+    user_address: {
       type: String,
       require: true,
       lowercase: true,
       trim: true,
     },
-    password: {
+    user_profession: {
+      type: String,
+      lowercase: true,
+      trim: true,
+    },
+    user_institution: {
+      type: String,
+      lowercase: true,
+      trim: true,
+    },
+    user_password: {
       type: String,
       require: true,
       trim: true,
@@ -49,8 +59,8 @@ const userSchema = new Schema(
 
 // Pre-save hook to hash the password
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return; // Use 'this' correctly
-  this.password = await bcrypt.hash(this.password, 10); // Await the hash operation
+  if (!this.isModified('user_password')) return; // Use 'this' correctly
+  this.user_password = await bcrypt.hash(this.user_password, 10); // Await the hash operation
 });
 
 // Instance method to check if password is correct

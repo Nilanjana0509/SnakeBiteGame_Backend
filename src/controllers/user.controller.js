@@ -3,46 +3,56 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
   try {
-    const { username, email, ph_no, address, password, con_password } =
-      req.body;
+    const {
+      user_name,
+      user_email,
+      user_password,
+      user_number,
+      user_address,
+      user_profession,
+      user_institution,
+    } = req.body;
 
     // Validate required fields
     if (
-      !username ||
-      !email ||
-      !ph_no ||
-      !address ||
-      !password ||
-      !con_password
+      !user_name ||
+      !user_email ||
+      !user_password ||
+      !user_number ||
+      !user_address
     ) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    console.log(user_email);
+
     // Check if passwords match
-    if (password !== con_password) {
-      return res.status(400).json({ message: 'Passwords do not match.' });
-    }
+    // if (password !== con_password) {
+    //   return res.status(400).json({ message: 'Passwords do not match.' });
+    // }
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ user_email });
     if (existingUser) {
       return res
         .status(400)
         .json({ message: 'User already exists with this email.' });
     }
-
+    console.log(user_email);
     // Create new user
     const user = await User.create({
-      username,
-      email,
-      ph_no,
-      address,
-      password,
+      user_name,
+      user_email,
+      user_password,
+      user_number,
+      user_address,
+      user_profession,
+      user_institution,
     });
 
     return res.status(201).json({
       message: 'User registered successfully.',
-      user: { id: user._id, username: user.username, email: user.email },
+      user: { id: user._id },
     });
   } catch (err) {
     console.error('Error during user registration:', err);
