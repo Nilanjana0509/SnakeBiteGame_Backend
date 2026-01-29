@@ -64,8 +64,8 @@ userSchema.pre('save', async function (next) {
 });
 
 // Instance method to check if password is correct
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.methods.isPasswordCorrect = async function (user_password) {
+  return await bcrypt.compare(user_password, this.user_password);
 };
 
 // Instance method to generate access token

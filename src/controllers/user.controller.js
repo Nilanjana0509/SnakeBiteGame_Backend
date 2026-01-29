@@ -24,8 +24,6 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    console.log(user_email);
-
     // Check if passwords match
     // if (password !== con_password) {
     //   return res.status(400).json({ message: 'Passwords do not match.' });
@@ -38,7 +36,6 @@ const registerUser = async (req, res) => {
         .status(400)
         .json({ message: 'User already exists with this email.' });
     }
-    console.log(user_email);
     // Create new user
     const user = await User.create({
       user_name,
@@ -62,15 +59,15 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password, deviceId } = req.body;
+    const { user_email, user_password, deviceId } = req.body;
 
-    if (!email || !password || !deviceId) {
+    if (!user_email || !user_password || !deviceId) {
       return res.status(400).json({
-        message: 'Email, password and deviceId are required.',
+        message: 'user_email, password and deviceId are required.',
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ user_email });
 
     if (!user) {
       return res.status(404).json({
@@ -78,7 +75,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const isPasswordValid = await user.isPasswordCorrect(password);
+    const isPasswordValid = await user.isPasswordCorrect(user_password);
     if (!isPasswordValid) {
       return res.status(401).json({
         message: 'Invalid user credentials.',
