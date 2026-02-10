@@ -21,14 +21,14 @@ app.use(
 app.use(express.static('public'));
 
 const userRouter = require('./routers/user.routes');
-// const productRouter=require('./routers/product.routes');
-// const productTypeRouter=require('./routers/productType.routes')
+// const adminRouter = require('./routers/admin.routes');
+// const paymentRouter = require('./routers/payment.routes');
 
 app.get('/', (req, res) => {
   res.send('api is running');
 });
 app.use('/api/users', userRouter);
-// app.use("/api/product",productRouter);
-// app.use("/api/productType",productTypeRouter)
+// app.use('/api/admin', adminRouter);
+// app.use('/api/payment', paymentRouter);
 
 module.exports = { app };
