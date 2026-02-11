@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const SubscriptionPayment = require('../models/paymentHistory.model');
 
 const registerUser = async (req, res) => {
   try {
@@ -81,7 +82,28 @@ const loginUser = async (req, res) => {
       });
     }
 
+    /* 🔐 SUBSCRIPTION CHECK START */
+    const subscription = await SubscriptionPayment.findOne({
+      userId: user._id,
+      verificationStatus: 'VERIFIED',
+    }).sort({ subscriptionAt: -1 }); // latest subscription
+
+    if (!subscription) {
+      return res.status(403).json({
+        message: 'No active subscription found.',
+      });
+    }
+
     const now = Date.now();
+    const subscriptionAt = Number(subscription.subscriptionAt);
+    const subscriptionExpiry = Number(subscription.subscriptionExpiry);
+
+    if (now < subscriptionAt || now > subscriptionExpiry) {
+      return res.status(403).json({
+        message: 'Your subscription has expired. Please renew.',
+      });
+    }
+    /* 🔐 SUBSCRIPTION CHECK END */
 
     // Ensure devices array exists
     if (!Array.isArray(user.devices)) {
@@ -92,7 +114,6 @@ const loginUser = async (req, res) => {
     const deviceIndex = user.devices.findIndex((d) => d.deviceId === deviceId);
 
     if (deviceIndex === -1) {
-      // New device
       if (user.devices.length >= 2) {
         return res.status(403).json({
           message: 'Device limit exceeded. You can login from only 2 devices.',
@@ -104,7 +125,6 @@ const loginUser = async (req, res) => {
         lastLogin: now,
       });
     } else {
-      // Existing device → update login time
       user.devices[deviceIndex].lastLogin = now;
     }
 
