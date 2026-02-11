@@ -31,6 +31,11 @@ const subscriptionPaymentSchema = new Schema(
       required: true,
     },
 
+    transactionId: {
+      type: String,
+      required: true,
+    },
+
     verificationStatus: {
       type: String,
       enum: ['PENDING', 'VERIFIED', 'REJECTED'],
