@@ -29,7 +29,7 @@ const createSubscriptionPayment = async (req, res) => {
       });
     }
 
-    // ✅ static price validation
+    // ✅ static price validatio
     const PRICE_MAP = {
       '1 Month': 149,
       '6 Months': 749,
