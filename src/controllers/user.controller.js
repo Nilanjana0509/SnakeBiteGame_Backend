@@ -160,6 +160,7 @@ const checkUser = async (req, res) => {
   }
 };
 
+// get all users
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({})
