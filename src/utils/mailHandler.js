@@ -22,12 +22,12 @@ const sendSubscriptionApprovedMail = async ({
       subject: 'Subscription Approved 🎉',
       html: `
       <h3>Hello ${userName},</h3>
-      <p>Your subscription has been <b>approved</b>.</p>
+      <p>Your subscription is <b>approved</b>.</p>
       <p><b>Amount:</b> ₹${amount}</p>
       <p><b>Duration:</b> ${duration}</p>
 
       <p>
-        👉 <a href="${productLink}">Click here to access your product</a>
+        👉 <a href="${productLink}">Click here to access the game</a>
       </p>
 
       <br/>

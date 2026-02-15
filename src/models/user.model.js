@@ -42,6 +42,10 @@ const userSchema = new Schema(
       require: true,
       trim: true,
     },
+    subscription_count: {
+      type: Number,
+      default: 0,
+    },
     devices: {
       type: [
         {

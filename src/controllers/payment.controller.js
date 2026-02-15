@@ -85,6 +85,10 @@ const createSubscriptionPayment = async (req, res) => {
       // verificationStatus: PENDING (default)
     });
 
+    await User.findByIdAndUpdate(userId, {
+      $inc: { subscription_count: 1 },
+    });
+
     return res.status(201).json({
       success: true,
       message: 'Subscription payment created successfully',
@@ -102,7 +106,7 @@ const createSubscriptionPayment = async (req, res) => {
 const getAllSubscriptionPayments = async (req, res) => {
   try {
     const payments = await SubscriptionPayment.find()
-      .populate('userId', 'user_name email') // adjust field as per User model
+      .populate('userId', 'user_name subscription_count') // adjust field as per User model
       .select('amount duration transactionId verificationStatus createdAt')
       .sort({
         verificationStatus: 1, // PENDING comes first alphabetically
@@ -113,6 +117,7 @@ const getAllSubscriptionPayments = async (req, res) => {
       id: item._id,
       user: item.userId?.user_name || 'Unknown User',
       amount: item.amount,
+      subscriptionCount: item.userId?.subscription_count || 0,
       duration: item.duration,
       transactionId: item.transactionId,
       status: item.verificationStatus,
