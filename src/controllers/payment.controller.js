@@ -15,7 +15,14 @@ const createSubscriptionPayment = async (req, res) => {
       subscriptionAt,
     } = req.body;
 
-    if (!userId || !amount || !duration || !subscriptionAt || !transactionId) {
+    if (
+      !userId ||
+      !amount ||
+      !duration ||
+      !subscriptionAt ||
+      !transactionId ||
+      !type
+    ) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required',
@@ -80,6 +87,7 @@ const createSubscriptionPayment = async (req, res) => {
       amount,
       transactionId,
       duration,
+      type,
       subscriptionAt: startEpoch.toString(),
       subscriptionExpiry: expiryEpoch.toString(),
       // verificationStatus: PENDING (default)

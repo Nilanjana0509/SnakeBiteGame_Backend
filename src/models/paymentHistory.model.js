@@ -41,6 +41,10 @@ const subscriptionPaymentSchema = new Schema(
       enum: ['PENDING', 'VERIFIED', 'REJECTED'],
       default: 'PENDING',
     },
+    type: {
+      type: String,
+      default: 'snake',
+    },
   },
   {
     timestamps: true,
