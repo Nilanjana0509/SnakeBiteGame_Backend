@@ -6,14 +6,8 @@ const { generatePasskey } = require('../utils/generatePasskey');
 
 const createSubscriptionPayment = async (req, res) => {
   try {
-    const {
-      userId,
-      userName,
-      amount,
-      transactionId,
-      duration,
-      subscriptionAt,
-    } = req.body;
+    const { userId, amount, transactionId, duration, subscriptionAt, type } =
+      req.body;
 
     if (
       !userId ||
