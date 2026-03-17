@@ -23,7 +23,6 @@ const userSchema = new Schema(
     },
     user_address: {
       type: String,
-      require: true,
       lowercase: true,
       trim: true,
     },
