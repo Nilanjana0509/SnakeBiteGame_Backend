@@ -32,7 +32,7 @@ const createSubscriptionPayment = async (req, res) => {
 
     // ✅ static price validatio
     const PRICE_MAP = {
-      '1 Month': 2,
+      '1 Month': 299,
       '6 Months': 1449,
       '1 Year': 2999,
     };
